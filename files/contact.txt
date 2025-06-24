@@ -1,0 +1,29 @@
+📧 Contact Information
+
+Email: vadim.gorbachev.dev@gmail.com
+GitHub: https://github.com/ProstoyVadila
+Telegram: https://t.me/vadique
+LinkedIn: https://linkedin.com/in/vadim-gorbachev/
+Phone: +63 (945) 298-60-44
+Location: Puerto Princesa, Philippines
+
+Let's Connect!
+=================
+What I can help with:
+• FastAPI and Go microservices development
+• Database optimization (PostgreSQL, Redis, MongoDB)
+• ETL pipeline design with Apache Kafka and Spark
+• Cloud infrastructure setup (AWS, Kubernetes, Docker)
+• Real-time systems and WebSocket optimization
+• CI/CD pipeline implementation and DevOps practices
+
+Professional Interests:
+• Data-intensive applications and system architecture
+• Performance optimization and load testing
+• Fintech solutions and ML risk models
+• Open source projects in Go, Python and Rust
+
+Response time: Usually within 24 hours
+Best contact method: Email for formal inquiries, Telegram for quick questions
+
+Looking forward to hearing from you! 🚀
