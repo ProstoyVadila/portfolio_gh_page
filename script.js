@@ -809,6 +809,7 @@ Source: github.com/ProstoyVadila/goproj`,
 <span class="success">Portfolio:</span><br />
 • demo          - Run interactive project demo<br />
 • website       - Switch to website view<br />
+• exit          - Close the terminal window<br />
 <br />
 <span class="success">Pipes:</span><br />
 • cat file | grep pattern - Search within file content<br />
@@ -818,7 +819,7 @@ Source: github.com/ProstoyVadila/goproj`,
 • Use Tab for auto-completion<br />
 • Use ↑/↓ arrow keys for command history<br />
 • Try: cat about.txt | grep backend<br />
-• Use 'website' command or click the red button to switch views<br />
+• Use 'website' or 'exit' command or click the red button to switch views<br />
 </div>`;
     this.addOutput(helpText);
   }
