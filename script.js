@@ -773,6 +773,9 @@ Source: github.com/ProstoyVadila/goproj`,
       case "website":
         this.switchToWebsite();
         break;
+      case "exit":
+        this.switchToWebsite();
+        break;
       case "":
         break;
       default:
