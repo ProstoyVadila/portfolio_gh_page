@@ -1,9 +1,8 @@
 # Portfolio
 
-This repository contains my personal portfolio projects, showcasing my skills and experience in software development.
+This repository contains my personal portfolio website.
 
 ## Contents
 
 - Project descriptions
 - Source code
-- Documentation
