@@ -22,74 +22,45 @@ class PortfolioSite {
   }
 
   setupNavigationScrolling() {
-    // Remove any existing listeners first
     const navLinks = document.querySelectorAll(".nav-link");
-
     navLinks.forEach((link) => {
-      // Clone node to remove all existing event listeners
-      const newLink = link.cloneNode(true);
-      link.parentNode.replaceChild(newLink, link);
-    });
-
-    // Add new listeners
-    setTimeout(() => {
-      const freshNavLinks = document.querySelectorAll(".nav-link");
-
-      freshNavLinks.forEach((link) => {
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const href = link.getAttribute("href");
-          if (!href || !href.startsWith("#")) return;
-
-          const targetId = href.substring(1);
-
-          // Try to find the target element
-          setTimeout(() => {
-            const targetElement = document.getElementById(targetId);
-
-            if (targetElement) {
-              // Close mobile menu if open
-              if (this.mobileNav && this.mobileNav.isMenuOpen) {
-                this.mobileNav.closeMenu();
-
-                // Wait for menu animation to complete
-                setTimeout(() => {
-                  // Calculate offset for sticky navbar
-                  const navbarHeight =
-                    document.querySelector(".navbar").offsetHeight || 0;
-                  const elementPosition =
-                    targetElement.getBoundingClientRect().top;
-                  const offsetPosition =
-                    elementPosition + window.pageYOffset - navbarHeight - 20;
-
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth",
-                  });
-                }, 350);
-              } else {
-                // Desktop or menu already closed
-                const navbarHeight =
-                  document.querySelector(".navbar").offsetHeight || 0;
-                const elementPosition =
-                  targetElement.getBoundingClientRect().top;
-                const offsetPosition =
-                  elementPosition + window.pageYOffset - navbarHeight - 20;
-
-                window.scrollTo({
-                  top: offsetPosition,
-                  behavior: "smooth",
-                });
-              }
-            } else {
-              console.warn(`Target element not found: ${targetId}`);
-            }
-          }, 50);
-        });
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.handleNavLinkClick(e.currentTarget);
       });
-    }, 100);
+    });
+  }
+
+  handleNavLinkClick(link) {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+
+    const targetId = href.substring(1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      const performScroll = () => {
+        const navbarHeight = document.querySelector(".navbar").offsetHeight || 0;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition =
+          elementPosition + window.pageYOffset - navbarHeight - 20;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      };
+
+      if (this.mobileNav && this.mobileNav.isMenuOpen) {
+        this.mobileNav.closeMenu();
+        setTimeout(performScroll, 350); // Wait for menu animation
+      } else {
+        performScroll();
+      }
+    } else {
+      console.warn(`Target element not found: ${targetId}`);
+    }
   }
 
   switchToWebsite() {
@@ -109,24 +80,19 @@ class PortfolioSite {
     setTimeout(() => {
       document.body.classList.add("website-mode");
       terminal.style.display = "none";
-      website.style.display = "block";
       website.classList.add("active");
       this.isTerminalMode = false;
 
       // Force scroll to top
       window.scrollTo(0, 0);
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
 
       // Ensure mobile nav is properly initialized
       if (!this.mobileNav.hamburger) {
         this.mobileNav.setupElements();
       }
 
-      // Re-setup navigation after mode switch with longer delay
-      setTimeout(() => {
-        this.setupNavigationScrolling();
-      }, 500);
+      // Re-setup navigation after mode switch
+      this.setupNavigationScrolling();
 
       console.log("Website mode activated");
 
@@ -691,7 +657,11 @@ Source: github.com/ProstoyVadila/goproj`,
     });
 
     document.addEventListener("click", (e) => {
-      if (!e.target.closest(".website") && this.commandInput) {
+      if (
+        !e.target.closest(".website") &&
+        this.commandInput &&
+        window.getSelection().toString().length === 0
+      ) {
         this.commandInput.focus();
       }
     });
@@ -1306,67 +1276,38 @@ I think about when designing secure systems.
 
   async performDownload(file, filename) {
     try {
-      let content;
-      let mimeType = file.mimeType || "text/plain";
+      const mimeType = file.mimeType || "text/plain";
+      let blob;
 
       if (file.realFile) {
-        await this.downloadRealFile(file.realFile, filename, mimeType);
-        return;
+        try {
+          const response = await fetch(`./files/${file.realFile}`);
+          if (response.ok) {
+            blob = await response.blob();
+          } else {
+            throw new Error("Real file not found, using content fallback");
+          }
+        } catch (error) {
+          const content = await this.loadFileContent(file);
+          blob = new Blob([content], { type: mimeType });
+        }
+      } else {
+        const content = await this.loadFileContent(file);
+        blob = new Blob([content], { type: mimeType });
       }
 
-      content = await this.loadFileContent(file);
-
-      const blob = new Blob([content], { type: mimeType });
       const url = URL.createObjectURL(blob);
-
       const a = document.createElement("a");
       a.href = url;
       a.download = filename;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-
       setTimeout(() => URL.revokeObjectURL(url), 100);
     } catch (error) {
       this.addOutput(
         `<span class="error">scp: Download failed - ${error.message}</span>`
       );
-    }
-  }
-
-  async downloadRealFile(realFileName, displayName, mimeType) {
-    try {
-      const response = await fetch(`./files/${realFileName}`);
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = displayName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        setTimeout(() => URL.revokeObjectURL(url), 100);
-      } else {
-        throw new Error("Real file not found, using content fallback");
-      }
-    } catch (error) {
-      const file = this.getFile(this.resolvePath(displayName));
-      const content = await this.loadFileContent(file);
-      const blob = new Blob([content], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = displayName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      setTimeout(() => URL.revokeObjectURL(url), 100);
     }
   }
 
