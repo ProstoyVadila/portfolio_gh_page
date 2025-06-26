@@ -300,6 +300,98 @@ class TerminalPortfolio {
     this.fileSystem = this.initFileSystem();
     this.commandInput = document.getElementById("commandInput");
     this.terminal = document.getElementById("terminalBody");
+    this.themes = {
+      gruvbox: {
+        "--bg0-hard": "#1d2021",
+        "--bg0": "#282828",
+        "--bg0-soft": "#32302f",
+        "--bg1": "#3c3836",
+        "--bg2": "#504945",
+        "--bg3": "#665c54",
+        "--bg4": "#7c6f64",
+        "--fg0": "#fbf1c7",
+        "--fg1": "#ebdbb2",
+        "--fg2": "#d5c4a1",
+        "--fg3": "#bdae93",
+        "--fg4": "#a89984",
+        "--red": "#cc241d",
+        "--green": "#98971a",
+        "--yellow": "#d79921",
+        "--blue": "#458588",
+        "--purple": "#b16286",
+        "--aqua": "#689d6a",
+        "--orange": "#d65d0e",
+        "--gray": "#928374",
+        "--bright-red": "#fb4934",
+        "--bright-green": "#b8bb26",
+        "--bright-yellow": "#fabd2f",
+        "--bright-blue": "#83a598",
+        "--bright-purple": "#d3869b",
+        "--bright-aqua": "#8ec07c",
+        "--bright-orange": "#fe8019",
+        "--bright-gray": "#a89984"
+      },
+      solarized: {
+        "--bg0-hard": "#002b36",
+        "--bg0": "#073642",
+        "--bg0-soft": "#0a4351",
+        "--bg1": "#586e75",
+        "--bg2": "#657b83",
+        "--bg3": "#839496",
+        "--bg4": "#93a1a1",
+        "--fg0": "#eee8d5",
+        "--fg1": "#fdf6e3",
+        "--fg2": "#93a1a1",
+        "--fg3": "#839496",
+        "--fg4": "#657b83",
+        "--red": "#dc322f",
+        "--green": "#859900",
+        "--yellow": "#b58900",
+        "--blue": "#268bd2",
+        "--purple": "#d33682",
+        "--aqua": "#2aa198",
+        "--orange": "#cb4b16",
+        "--gray": "#93a1a1",
+        "--bright-red": "#cb4b16",
+        "--bright-green": "#586e75",
+        "--bright-yellow": "#657b83",
+        "--bright-blue": "#839496",
+        "--bright-purple": "#6c71c4",
+        "--bright-aqua": "#93a1a1",
+        "--bright-orange": "#cb4b16",
+        "--bright-gray": "#eee8d5"
+      },
+      dracula: {
+        "--bg0-hard": "#282a36",
+        "--bg0": "#282a36",
+        "--bg0-soft": "#2d2f3d",
+        "--bg1": "#44475a",
+        "--bg2": "#44475a",
+        "--bg3": "#6272a4",
+        "--bg4": "#6272a4",
+        "--fg0": "#f8f8f2",
+        "--fg1": "#f8f8f2",
+        "--fg2": "#bd93f9",
+        "--fg3": "#6272a4",
+        "--fg4": "#44475a",
+        "--red": "#ff5555",
+        "--green": "#50fa7b",
+        "--yellow": "#f1fa8c",
+        "--blue": "#bd93f9",
+        "--purple": "#ff79c6",
+        "--aqua": "#8be9fd",
+        "--orange": "#ffb86c",
+        "--gray": "#6272a4",
+        "--bright-red": "#ff6e6e",
+        "--bright-green": "#69ff94",
+        "--bright-yellow": "#ffffa5",
+        "--bright-blue": "#d6acff",
+        "--bright-purple": "#ff92df",
+        "--bright-aqua": "#a4ffff",
+        "--bright-orange": "#ffca8a",
+        "--bright-gray": "#f8f8f2"
+      }
+    };
 
     this.initEventListeners();
     if (this.commandInput) {
@@ -317,42 +409,28 @@ class TerminalPortfolio {
             downloadable: true,
             mimeType: "text/plain",
             realFile: "about.txt",
-            content: null,
+            content: null
           },
           "README.md": {
             type: "file",
             downloadable: true,
             mimeType: "text/plain",
             realFile: "README.md",
-            content: null,
+            content: null
           },
           "cv.pdf": {
             type: "file",
             downloadable: true,
             mimeType: "application/pdf",
             realFile: "cv.pdf",
-            content: `📄 CV/Resume - Vadim Gorbachev
-
-This is a PDF file. Use 'scp cv.pdf' to download the full resume.
-
-Quick Overview:
-==============
-Senior Software Engineer specializing in Python and Go
-Currently at Salmon (Filipino Bank) developing ML risk models
-Previous experience at Tetrika School and Sberbank
-Expert in microservices, WebSocket systems, and ETL pipelines
-
-Contact: vadim.gorbachev.dev@gmail.com
-Location: Puerto Princesa, Philippines
-
-[Download full PDF: cv.pdf]`,
+            content: `📄 CV/Resume - Vadim Gorbachev\n\nThis is a PDF file. Use 'scp cv.pdf' to download the full resume.\n\nQuick Overview:\n==============\nSenior Software Engineer specializing in Python and Go\nCurrently at Salmon (Filipino Bank) developing ML risk models\nPrevious experience at Tetrika School and Sberbank\nExpert in microservices, WebSocket systems, and ETL pipelines\n\nContact: vadim.gorbachev.dev@gmail.com\nLocation: Puerto Princesa, Philippines\n\n[Download full PDF: cv.pdf]`
           },
           "contact.txt": {
             type: "file",
             downloadable: true,
             mimeType: "text/plain",
             realFile: "contact.txt",
-            content: null,
+            content: null
           },
           projects: {
             type: "directory",
@@ -362,224 +440,47 @@ Location: Puerto Princesa, Philippines
                 contents: {
                   "README.md": {
                     type: "file",
-                    content: `# ML Risk Assessment System (Salmon Project)
-
-## Overview
-Developed and deployed ML risk models using AWS Lambda for POS (Point of Sale) product at Salmon, a Filipino fintech company.
-
-## Key Components
-- **Feature Store**: Centralized feature management for ML models
-- **Models API Service**: RESTful API for risk score calculation  
-- **Decision-Making System**: Automated loan approval/rejection logic
-
-## Technical Stack
-- **Languages**: Python
-- **Cloud**: AWS Lambda, AWS Rekognition
-- **Databases**: PostgreSQL
-- **Streaming**: Apache Kafka
-- **Infrastructure**: Terraform, Kubernetes
-
-## Achievements
-🎯 <100ms average response time for risk scoring
-🎯 99.9% uptime for critical risk assessment services
-🎯 Successfully contributed to launching new credit product
-🎯 Improved inter-team collaboration through clean API contracts
-
-## Business Impact
-- Automated manual risk assessment processes
-- Improved accuracy of credit decisions
-- Built audit trails for regulatory compliance`,
-                  },
-                },
+                    content: `# ML Risk Assessment System (Salmon Project)\n\n## Overview\nDeveloped and deployed ML risk models using AWS Lambda for POS (Point of Sale) product at Salmon, a Filipino fintech company.\n\n## Key Components\n- **Feature Store**: Centralized feature management for ML models\n- **Models API Service**: RESTful API for risk score calculation  \n- **Decision-Making System**: Automated loan approval/rejection logic\n\n## Technical Stack\n- **Languages**: Python\n- **Cloud**: AWS Lambda, AWS Rekognition\n- **Databases**: PostgreSQL\n- **Streaming**: Apache Kafka\n- **Infrastructure**: Terraform, Kubernetes\n\n## Achievements\n🎯 <100ms average response time for risk scoring\n🎯 99.9% uptime for critical risk assessment services\n🎯 Successfully contributed to launching new credit product\n🎯 Improved inter-team collaboration through clean API contracts\n\n## Business Impact\n- Automated manual risk assessment processes\n- Improved accuracy of credit decisions\n- Built audit trails for regulatory compliance`
+                  }
+                }
               },
               "websocket-chat": {
                 type: "directory",
                 contents: {
                   "README.md": {
                     type: "file",
-                    content: `# Real-Time Chat System (Tetrika School)
-
-## Overview
-Redesigned WebSocket microservice for real-time lesson communication, supporting thousands of concurrent students and teachers.
-
-## The Challenge
-- Connection drops during high load
-- Duplicated messages in Python Tornado service
-- Memory consumption issues
-- Limited horizontal scaling capabilities
-
-## Solution
-Migrated from Python Tornado to **Go with Centrifuge framework**
-
-## Architecture
-- **Backend**: Go with Centrifuge framework
-- **Message Broker**: Redis Pub/Sub for horizontal scaling
-- **Load Balancer**: nginx with sticky sessions
-- **Deployment**: Kubernetes cluster with auto-scaling
-
-## Key Results
-🚀 Reduced resource consumption by 60%
-🚀 Eliminated critical bugs like message duplication
-🚀 Horizontal scaling with Redis clustering
-🚀 99.9% uptime during peak usage periods
-
-## Frontend Integration
-Also contributed to NextJS WebSocket component rewrite:
-- Improved connection state management
-- Better error handling and user feedback`,
-                  },
-                },
+                    content: `# Real-Time Chat System (Tetrika School)\n\n## Overview\nRedesigned WebSocket microservice for real-time lesson communication, supporting thousands of concurrent students and teachers.\n\n## The Challenge\n- Connection drops during high load\n- Duplicated messages in Python Tornado service\n- Memory consumption issues\n- Limited horizontal scaling capabilities\n\n## Solution\nMigrated from Python Tornado to **Go with Centrifuge framework**\n\n## Architecture\n- **Backend**: Go with Centrifuge framework\n- **Message Broker**: Redis Pub/Sub for horizontal scaling\n- **Load Balancer**: nginx with sticky sessions\n- **Deployment**: Kubernetes cluster with auto-scaling\n\n## Key Results\n🚀 Reduced resource consumption by 60%\n🚀 Eliminated critical bugs like message duplication\n🚀 Horizontal scaling with Redis clustering\n🚀 99.9% uptime during peak usage periods\n\n## Frontend Integration\nAlso contributed to NextJS WebSocket component rewrite:\n- Improved connection state management\n- Better error handling and user feedback`
+                  }
+                }
               },
               "etl-pipeline": {
                 type: "directory",
                 contents: {
                   "README.md": {
                     type: "file",
-                    content: `# ETL Data Pipeline (Sberbank Project)
-
-## Overview
-Developed ETL pipeline for real estate and vehicle price evaluation using classified ads data from Russia and neighboring countries.
-
-## Project Scope
-- **Data Sources**: Multiple platforms (Avito, Auto.ru, etc.)
-- **Geographic Coverage**: Russia and CIS countries
-- **Data Volume**: Millions of listings processed daily
-- **Purpose**: Price evaluation models for loan risk assessment
-
-## My Contributions
-
-### Parser Development
-- Implemented new parsers for real estate and vehicle platforms
-- Built anti-detection mechanisms and proxy rotation systems
-- Created robust data extraction logic handling various site structures
-
-### Microservice Enhancements  
-- Enhanced proxy management microservice (Flask)
-- Improved ORM service using SQLAlchemy
-- Implemented error handling and retry mechanisms
-
-### Data Processing
-- Data cleaning and normalization using Pandas
-- Created analytics queries for data quality assessment
-- Developed monitoring dashboards for data flow tracking
-
-## Technology Stack
-- **Languages**: Python
-- **Frameworks**: Scrapy (customized), Flask, SQLAlchemy  
-- **Databases**: PostgreSQL, Memcached
-- **Message Queue**: RabbitMQ
-- **Monitoring**: Kibana, Prometheus
-- **CI/CD**: GitLab CI, Jenkins
-
-## Business Impact
-- Provided accurate market data for loan decisions
-- Replaced manual price research with automated system
-- Eliminated need for expensive third-party data providers`,
-                  },
-                },
+                    content: `# ETL Data Pipeline (Sberbank Project)\n\n## Overview\nDeveloped ETL pipeline for real estate and vehicle price evaluation using classified ads data from Russia and neighboring countries.\n\n## Project Scope\n- **Data Sources**: Multiple platforms (Avito, Auto.ru, etc.)\n- **Geographic Coverage**: Russia and CIS countries\n- **Data Volume**: Millions of listings processed daily\n- **Purpose**: Price evaluation models for loan risk assessment\n\n## My Contributions\n\n### Parser Development\n- Implemented new parsers for real estate and vehicle platforms\n- Built anti-detection mechanisms and proxy rotation systems\n- Created robust data extraction logic handling various site structures\n\n### Microservice Enhancements  \n- Enhanced proxy management microservice (Flask)\n- Improved ORM service using SQLAlchemy\n- Implemented error handling and retry mechanisms\n\n### Data Processing\n- Data cleaning and normalization using Pandas\n- Created analytics queries for data quality assessment\n- Developed monitoring dashboards for data flow tracking\n\n## Technology Stack\n- **Languages**: Python\n- **Frameworks**: Scrapy (customized), Flask, SQLAlchemy  \n- **Databases**: PostgreSQL, Memcached\n- **Message Queue**: RabbitMQ\n- **Monitoring**: Kibana, Prometheus\n- **CI/CD**: GitLab CI, Jenkins\n\n## Business Impact\n- Provided accurate market data for loan decisions\n- Replaced manual price research with automated system\n- Eliminated need for expensive third-party data providers`
+                  }
+                }
               },
               parsera: {
                 type: "directory",
                 contents: {
                   "README.md": {
                     type: "file",
-                    content: `# Parsera - Web Scraping Platform
-
-## Overview
-Pet project of a scalable 24/7 crawler platform based on microservices architecture. Started to deepen knowledge in system design and explore Go and Rust frameworks.
-
-## Architecture Design
-- **Microservices**: Separate services for different responsibilities
-- **Multi-language**: Services written in Python, Go, and Rust
-- **Scalability**: Designed for 24/7 operation
-- **Flexibility**: Easy addition of new parsers through API/web interface
-
-## System Components
-- **Parser Management Service** (Go): Handles parser configuration
-- **Data Processing Service** (Rust): High-performance data cleaning
-- **Web Interface** (Python): User-friendly parser management UI
-- **Queue Manager** (Go): Task distribution and monitoring
-- **Storage Service** (Rust): Optimized data persistence layer
-
-## Technical Stack
-- **Languages**: Python, Go, Rust
-- **Databases**: PostgreSQL for data storage
-- **Message Queue**: RabbitMQ for task distribution
-- **Cache**: Redis for performance optimization
-- **Deployment**: Docker containers
-
-## Learning Outcomes
-- **System Design**: Understanding of distributed systems principles
-- **Go Development**: Proficiency in Go for backend services
-- **Rust Programming**: Experience with Rust for performance-critical components
-- **DevOps**: Docker containerization and service orchestration
-
-## Current Status
-- Active development since August 2023
-- Core services implemented and tested
-- Docker-based deployment pipeline
-
-Source: Personal GitHub repository`,
-                  },
-                },
+                    content: `# Parsera - Web Scraping Platform\n\n## Overview\nPet project of a scalable 24/7 crawler platform based on microservices architecture. Started to deepen knowledge in system design and explore Go and Rust frameworks.\n\n## Architecture Design\n- **Microservices**: Separate services for different responsibilities\n- **Multi-language**: Services written in Python, Go, and Rust\n- **Scalability**: Designed for 24/7 operation\n- **Flexibility**: Easy addition of new parsers through API/web interface\n\n## System Components\n- **Parser Management Service** (Go): Handles parser configuration\n- **Data Processing Service** (Rust): High-performance data cleaning\n- **Web Interface** (Python): User-friendly parser management UI\n- **Queue Manager** (Go): Task distribution and monitoring\n- **Storage Service** (Rust): Optimized data persistence layer\n\n## Technical Stack\n- **Languages**: Python, Go, Rust\n- **Databases**: PostgreSQL for data storage\n- **Message Queue**: RabbitMQ for task distribution\n- **Cache**: Redis for performance optimization\n- **Deployment**: Docker containers\n\n## Learning Outcomes\n- **System Design**: Understanding of distributed systems principles\n- **Go Development**: Proficiency in Go for backend services\n- **Rust Programming**: Experience with Rust for performance-critical components\n- **DevOps**: Docker containerization and service orchestration\n\n## Current Status\n- Active development since August 2023\n- Core services implemented and tested\n- Docker-based deployment pipeline\n\nSource: Personal GitHub repository`
+                  }
+                }
               },
               goproj: {
                 type: "directory",
                 contents: {
                   "README.md": {
                     type: "file",
-                    content: `# Goproj - Go Project Template CLI
-
-## Overview
-A smart CLI tool for Go project initialization with customizable templates and configurations.
-
-## Features
-- **Smart Templates**: Automatically generates project structure
-- **Customizable**: Configure templates through arguments or config file
-- **Comprehensive Setup**: Includes all essential project files
-- **Developer Tools**: Integrates with Git and VS Code
-
-## Generated Project Structure
-\`\`\`
-project-name/
-├── main.go
-├── go.mod
-├── Dockerfile (with latest Alpine version check)
-├── Makefile
-├── .gitignore
-├── LICENSE
-├── README.md
-└── cmd/main/main.go
-\`\`\`
-
-## Key Features
-🚀 **Alpine Version Check**: Automatically fetches latest Alpine Linux version
-🚀 **Interactive Mode**: Step-by-step project configuration
-🚀 **Config File Support**: Save preferences for future projects
-🚀 **Git Integration**: Automatic repository initialization
-🚀 **VS Code Setup**: Workspace configuration for optimal development
-
-## Technical Implementation
-- **Language**: Go
-- **CLI Framework**: Cobra for command-line interface
-- **Templates**: Go templates for file generation
-- **HTTP Client**: For fetching latest Alpine versions
-
-## Installation
-\`\`\`bash
-go install github.com/ProstoyVadila/goproj@latest
-\`\`\`
-
-## Benefits
-- Reduces project setup time from minutes to seconds
-- Ensures consistent project structure across teams
-- Includes Go community best practices
-
-Source: github.com/ProstoyVadila/goproj`,
-                  },
-                },
-              },
-            },
+                    content: `# Goproj - Go Project Template CLI\n\n## Overview\nA smart CLI tool for Go project initialization with customizable templates and configurations.\n\n## Features\n- **Smart Templates**: Automatically generates project structure\n- **Customizable**: Configure templates through arguments or config file\n- **Comprehensive Setup**: Includes all essential project files\n- **Developer Tools**: Integrates with Git and VS Code\n\n## Generated Project Structure\n\`\`\`\nproject-name/\n├── main.go\n├── go.mod\n├── Dockerfile (with latest Alpine version check)\n├── Makefile\n├── .gitignore\n├── LICENSE\n├── README.md\n└── cmd/main/main.go\n\`\`\`\n\n## Key Features\n🚀 **Alpine Version Check**: Automatically fetches latest Alpine Linux version\n🚀 **Interactive Mode**: Step-by-step project configuration\n🚀 **Config File Support**: Save preferences for future projects\n🚀 **Git Integration**: Automatic repository initialization\n🚀 **VS Code Setup**: Workspace configuration for optimal development\n\n## Technical Implementation\n- **Language**: Go\n- **CLI Framework**: Cobra for command-line interface\n- **Templates**: Go templates for file generation\n- **HTTP Client**: For fetching latest Alpine versions\n\n## Installation\n\`\`\`bash\ngo install github.com/ProstoyVadila/goproj@latest\n\`\`\`\n\n## Benefits\n- Reduces project setup time from minutes to seconds\n- Ensures consistent project structure across teams\n- Includes Go community best practices\n\nSource: github.com/ProstoyVadila/goproj`
+                  }
+                }
+              }
+            }
           },
           skills: {
             type: "directory",
@@ -589,26 +490,26 @@ Source: github.com/ProstoyVadila/goproj`,
                 downloadable: true,
                 mimeType: "text/plain",
                 realFile: "languages.txt",
-                content: null,
+                content: null
               },
               "databases.txt": {
                 type: "file",
                 downloadable: true,
                 mimeType: "text/plain",
                 realFile: "databases.txt",
-                content: null,
+                content: null
               },
               "cloud.txt": {
                 type: "file",
                 downloadable: true,
                 mimeType: "text/plain",
                 realFile: "cloud.txt",
-                content: null,
-              },
-            },
-          },
-        },
-      },
+                content: null
+              }
+            }
+          }
+        }
+      }
     };
   }
 
@@ -752,6 +653,9 @@ Source: github.com/ProstoyVadila/goproj`,
       case "history":
         this.showHistory();
         break;
+      case "theme":
+        this.setTheme(args[0]);
+        break;
       case "":
         break;
       default:
@@ -761,44 +665,33 @@ Source: github.com/ProstoyVadila/goproj`,
   }
 
   showHelp() {
-    const helpText = `<div class="output">
-<span class="highlight">Available Commands:</span><br />
-<br />
-<span class="success">Navigation:</span><br />
-• ls [path]     - List files and directories<br />
-• cd [path]     - Change directory<br />
-• pwd           - Show current directory<br />
-• cat [file]    - Display file content<br />
-<br />
-<span class="success">System:</span><br />
-• help          - Show this help message<br />
-• clear         - Clear the terminal<br />
-• whoami        - Display user information<br />
-• date          - Show current date and time<br />
-• echo [text]   - Display text<br />
-• history       - Show command history<br />
-<br />
-<span class="success">Search & Text:</span><br />
-• grep [pattern] [file] - Search for patterns in files<br />
-• cowsay [text] - ASCII cow says your text<br />
-• scp [file]    - Download file to your computer<br />
-<br />
-<span class="success">Portfolio:</span><br />
-• demo          - Run interactive project demo<br />
-• website       - Switch to website view<br />
-• exit          - Close the terminal window<br />
-<br />
-<span class="success">Pipes:</span><br />
-• cat file | grep pattern - Search within file content<br />
-• ls | grep pattern       - Filter directory listings<br />
-<br />
-<span class="highlight">Tips:</span><br />
-• Use Tab for auto-completion<br />
-• Use ↑/↓ arrow keys for command history<br />
-• Try: cat about.txt | grep backend<br />
-• Use 'website' or 'exit' command or click the red button to switch views<br />
-</div>`;
+    const helpText = `<div class="output">\n<span class="highlight">Available Commands:</span><br />\n<br />\n<span class="success">Navigation:</span><br />\n• ls [path]     - List files and directories<br />\n• cd [path]     - Change directory<br />\n• pwd           - Show current directory<br />\n• cat [file]    - Display file content<br />\n<br />\n<span class="success">System:</span><br />\n• help          - Show this help message<br />\n• clear         - Clear the terminal<br />\n• whoami        - Display user information<br />\n• date          - Show current date and time<br />\n• echo [text]   - Display text<br />\n• history       - Show command history<br />\n• theme [name]  - Change terminal theme (gruvbox, solarized, dracula)<br />\n<br />\n<span class="success">Search & Text:</span><br />\n• grep [pattern] [file] - Search for patterns in files<br />\n• cowsay [text] - ASCII cow says your text<br />\n• scp [file]    - Download file to your computer<br />\n<br />\n<span class="success">Portfolio:</span><br />\n• demo          - Run interactive project demo<br />\n• website       - Switch to website view<br />\n• exit          - Close the terminal window<br />\n<br />\n<span class="success">Pipes:</span><br />\n• cat file | grep pattern - Search within file content<br />\n• ls | grep pattern       - Filter directory listings<br />\n<br />\n<span class="highlight">Tips:</span><br />\n• Use Tab for auto-completion<br />\n• Use ↑/↓ arrow keys for command history<br />\n• Try: cat about.txt | grep backend<br />\n• Use 'website' or 'exit' command or click the red button to switch views<br />\n</div>`;
     this.addOutput(helpText);
+  }
+
+  setTheme(themeName) {
+    if (!themeName) {
+      this.addOutput(
+        `<span class="error">theme: missing theme name. Available themes: gruvbox, solarized, dracula</span>`
+      );
+      return;
+    }
+
+    const theme = this.themes[themeName.toLowerCase()];
+    if (!theme) {
+      this.addOutput(
+        `<span class="error">theme: unknown theme '${themeName}'. Available themes: gruvbox, solarized, dracula</span>`
+      );
+      return;
+    }
+
+    for (const [key, value] of Object.entries(theme)) {
+      document.documentElement.style.setProperty(key, value);
+    }
+
+    this.addOutput(
+      `<span class="success">Theme changed to ${themeName}.</span>`
+    );
   }
 
   showHistory() {
@@ -948,41 +841,7 @@ Source: github.com/ProstoyVadila/goproj`,
   }
 
   runDemo() {
-    this.addOutput(`<div class="output">
-<span class="highlight">🚀 ML Risk Assessment API Demo (Salmon Project)</span>
-
-<span class="success">POST /api/risk/assess</span>
-Request: {"user_id": "12345", "loan_amount": 50000, "features": {...}}
-Response: 200 OK
-{
-  "risk_score": 0.23,
-  "decision": "APPROVED", 
-  "confidence": 0.89,
-  "processing_time_ms": 67,
-  "model_version": "v2.1.3"
-}
-
-<span class="success">GET /api/features/user/12345</span>
-Response: 200 OK
-{
-  "features": {
-    "credit_history_score": 0.85,
-    "income_stability": 0.92,
-    "debt_ratio": 0.15
-  },
-  "last_updated": "2024-03-15T10:30:00Z",
-  "response_time_ms": 23
-}
-
-<span class="highlight">💡 System Performance:</span>
-• Average Response Time: <100ms
-• Model Accuracy: 94.2%
-• Uptime: 99.9%
-• Daily Assessments: 15,000+
-
-<span class="success">Real-time ML risk assessment powered by AWS Lambda!</span>
-<span class="success">Check projects/ml-risk-system/ for technical details.</span>
-</div>`);
+    this.addOutput(`<div class="output">\n<span class="highlight">🚀 ML Risk Assessment API Demo (Salmon Project)</span>\n\n<span class="success">POST /api/risk/assess</span>\nRequest: {"user_id": "12345", "loan_amount": 50000, "features": {...}}\nResponse: 200 OK\n{\n  "risk_score": 0.23,\n  "decision": "APPROVED", \n  "confidence": 0.89,\n  "processing_time_ms": 67,\n  "model_version": "v2.1.3"\n}\n\n<span class="success">GET /api/features/user/12345</span>\nResponse: 200 OK\n{\n  "features": {\n    "credit_history_score": 0.85,\n    "income_stability": 0.92,\n    "debt_ratio": 0.15\n  },\n  "last_updated": "2024-03-15T10:30:00Z",\n  "response_time_ms": 23\n}\n\n<span class="highlight">💡 System Performance:</span>\n• Average Response Time: <100ms\n• Model Accuracy: 94.2%\n• Uptime: 99.9%\n• Daily Assessments: 15,000+\n\n<span class="success">Real-time ML risk assessment powered by AWS Lambda!</span>\n<span class="success">Check projects/ml-risk-system/ for technical details.</span>\n</div>`);
   }
 
   commandNotFound(cmd) {
@@ -1171,16 +1030,7 @@ Response: 200 OK
         "Hello! I'm Vadim, a Software Engineer who loves building scalable systems with Python and Go!";
     }
 
-    const cow = `<div class="output" style="font-family: monospace; white-space: pre;">
-${"_".repeat(text.length + 2)}
-< ${text} >
-${"-".repeat(text.length + 2)}
-  \\   ^__^
-   \\  (oo)\\_______
-      (__)\\       )\\/\\
-          ||----w |
-          ||     ||
-</div>`;
+    const cow = `<div class="output" style="font-family: monospace; white-space: pre;">\n${"_".repeat(text.length + 2)}\n< ${text} >\n${"-".repeat(text.length + 2)}\n  \\   ^__^\n   \\  (oo)\\_______\n      (__)\\       )\\/\\\n          ||----w |\n          ||     ||\n</div>`;
     this.addOutput(cow);
   }
 
@@ -1188,23 +1038,7 @@ ${"-".repeat(text.length + 2)}
     const command = args.join(" ");
 
     if (command === "rm -rf /" || command === "rm -rf /*") {
-      this.addOutput(`<div class="output">
-<span class="error">sudo: rm -rf /</span>
-
-<span class="highlight">🚨 SYSTEM PROTECTION ACTIVATED 🚨</span>
-
-Nice try! But I've implemented proper safeguards in my systems:
-
-<span class="success">✅ Input validation</span>
-<span class="success">✅ Permission checks</span>  
-<span class="success">✅ Backup strategies</span>
-<span class="success">✅ Disaster recovery</span>
-
-As a backend engineer, I always code defensively! 😄
-
-<span class="highlight">Fun fact:</span> This is exactly the kind of edge case
-I think about when designing secure systems.
-</div>`);
+      this.addOutput(`<div class="output">\n<span class="error">sudo: rm -rf /</span>\n\n<span class="highlight">🚨 SYSTEM PROTECTION ACTIVATED 🚨</span>\n\nNice try! But I've implemented proper safeguards in my systems:\n\n<span class="success">✅ Input validation</span>\n<span class="success">✅ Permission checks</span>  \n<span class="success">✅ Backup strategies</span>\n<span class="success">✅ Disaster recovery</span>\n\nAs a backend engineer, I always code defensively! 😄\n\n<span class="highlight">Fun fact:</span> This is exactly the kind of edge case\nI think about when designing secure systems.\n</div>`);
     } else if (
       command.startsWith("apt") ||
       command.startsWith("yum") ||
