@@ -673,9 +673,11 @@ Source: github.com/ProstoyVadila/goproj`,
       this.addToHistory(command);
       this.commandHistory.push(command);
       this.historyIndex = this.commandHistory.length;
+      this.processCommand(command);
+    } else {
+      this.addToHistory("");
     }
 
-    this.processCommand(command);
     this.commandInput.value = "";
     this.scrollToBottom();
   }
