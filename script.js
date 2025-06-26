@@ -41,7 +41,8 @@ class PortfolioSite {
 
     if (targetElement) {
       const performScroll = () => {
-        const navbarHeight = document.querySelector(".navbar").offsetHeight || 0;
+        const navbarHeight =
+          document.querySelector(".navbar").offsetHeight || 0;
         const elementPosition = targetElement.getBoundingClientRect().top;
         const offsetPosition =
           elementPosition + window.pageYOffset - navbarHeight - 20;
@@ -748,6 +749,9 @@ Source: github.com/ProstoyVadila/goproj`,
       case "exit":
         this.switchToWebsite();
         break;
+      case "history":
+        this.showHistory();
+        break;
       case "":
         break;
       default:
@@ -772,6 +776,7 @@ Source: github.com/ProstoyVadila/goproj`,
 • whoami        - Display user information<br />
 • date          - Show current date and time<br />
 • echo [text]   - Display text<br />
+• history       - Show command history<br />
 <br />
 <span class="success">Search & Text:</span><br />
 • grep [pattern] [file] - Search for patterns in files<br />
@@ -794,6 +799,17 @@ Source: github.com/ProstoyVadila/goproj`,
 • Use 'website' or 'exit' command or click the red button to switch views<br />
 </div>`;
     this.addOutput(helpText);
+  }
+
+  showHistory() {
+    let historyOutput = '<div class="output">';
+    this.commandHistory.forEach((command, index) => {
+      historyOutput += `<div><span class="highlight">${
+        index + 1
+      }</span> ${command}</div>`;
+    });
+    historyOutput += "</div>";
+    this.addOutput(historyOutput);
   }
 
   switchToWebsite() {
